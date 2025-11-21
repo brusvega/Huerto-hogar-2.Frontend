@@ -1,0 +1,42 @@
+/* 🎨 Botones globales */
+
+button,
+.btn,               /* si usas botones con clase .btn de Bootstrap */
+.navbar-btn {
+  background-color: #65b968 !important;
+  border: none !important;
+  border-radius: 5px !important;
+  padding: 0.6rem 1.2rem !important;
+  font-size: 1rem !important;
+  font-weight: 500;
+  color: white !important;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+button:hover,
+.btn:hover,
+.navbar-btn:hover {
+  background-color: #58a45b !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔇 quitar halo y bordes de foco */
+button:focus,
+.btn:focus,
+.navbar-btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.btn-ver-detalle {
+  background-color: #e0e0e0 !important;
+  color: #333 !important;
+}
+
+.btn-ver-detalle:hover {
+  background-color: #cfcfcf !important;
+}
+

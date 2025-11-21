@@ -1,0 +1,19 @@
+.btn-outline-secondary {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #198754;
+  color: white;
+  border-color: #198754;
+}
+
+.fs-5 {
+  min-width: 30px;
+  display: inline-block;
+  text-align: center;
+}

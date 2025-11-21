@@ -1,0 +1,52 @@
+/* ===========================================================
+    SECCIÓN BANNER (imagen superior con texto)
+   =========================================================== */
+.banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 6; /* Mantiene proporción del banner */
+  overflow: hidden;
+  border-radius: 0 0 12px 12px;
+  background-color: #e9f5ea;
+}
+
+.banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Recorta sin deformar */
+  display: block;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  text-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+}
+
+.banner-text h1 {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.banner-text p {
+  font-size: clamp(1rem, 2vw, 1.3rem);
+  margin: 0;
+}
+/* ===========================================================
+    SECCIÓN PRINCIPAL “NOSOTROS”
+   =========================================================== */
+.titulo-seccion {
+  text-align: center;
+  margin-top: 3rem;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #4d944f;
+}

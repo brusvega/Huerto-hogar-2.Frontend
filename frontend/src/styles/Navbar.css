@@ -1,0 +1,92 @@
+:root {
+  --navbar-bg: #ffffff;
+  --navbar-color: #333;
+  --navbar-btn-bg: #65b968;
+  --navbar-btn-bg-hover: #4d944f;
+}
+
+/* Navbar base */
+.navbar {
+  background-color: var(--navbar-bg) !important;
+  color: var(--navbar-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--navbar-btn-bg) !important;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+/* Enlaces */
+.navbar-nav .nav-link {
+  color: var(--navbar-color) !important;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  padding: 0.3rem 0.7rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--navbar-btn-bg) !important;
+}
+
+/* Botón "Cuenta" */
+.navbar-btn {
+  background-color: var(--navbar-btn-bg) !important;
+  border: none !important;
+  border-radius: 80px;
+  padding: 0.45rem 1.5rem;
+  font-weight: 500;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn:hover {
+  background-color: var(--navbar-btn-bg-hover) !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón hamburguesa */
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* ===========================================================
+   📱 RESPONSIVO / MENÚ COLAPSADO
+   =========================================================== */
+@media (max-width: 992px) {
+  .navbar-nav {
+    background-color: var(--navbar-bg);
+    border-radius: 10px;
+    padding: 0.8rem 0.5rem;
+    display: flex;
+    flex-wrap: wrap;              /* Permite dos filas */
+    justify-content: center;      /* Centra horizontalmente */
+    gap: 0.5rem 1rem;             /* Espaciado uniforme entre items */
+  }
+
+  .navbar-nav .nav-item {
+    flex: 1 1 40%;                /*  forma dos columnas */
+    text-align: center;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.4rem 0.5rem;       /* Menos espacio entre enlaces */
+  }
+
+  .navbar-btn {
+    display: block;
+    width: 90%;
+    margin: 1rem auto 0;
+    text-align: center;
+  }
+}
+

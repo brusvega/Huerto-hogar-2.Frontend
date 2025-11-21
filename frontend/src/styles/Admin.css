@@ -1,0 +1,81 @@
+/* ======== ESTILOS BASE DEL PANEL ADMIN ======== */
+
+.admin-container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafb;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* === Sidebar (menú lateral) === */
+.admin-sidebar {
+  width: 220px;
+  background-color: #2e7d32; /* verde principal */
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.admin-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.admin-sidebar nav ul li {
+  margin-bottom: 10px;
+}
+
+.admin-sidebar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.admin-sidebar a:hover {
+  background-color: #388e3c;
+}
+
+/* === Contenido principal === */
+.admin-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #ffffff;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.05);
+}
+
+/* === Responsivo === */
+@media (max-width: 768px) {
+  .admin-container {
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .admin-sidebar nav ul {
+    display: flex;
+    gap: 10px;
+  }
+
+  .admin-content {
+    border-radius: 0;
+  }
+}

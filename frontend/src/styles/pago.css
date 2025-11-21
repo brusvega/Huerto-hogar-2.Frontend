@@ -1,0 +1,101 @@
+/* ==============================
+   CONTENEDOR GENERAL
+============================== */
+.pago-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  background-color: #f9f9f9;
+  padding: 2rem;
+}
+
+.pago-card {
+  background: #fff;
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 450px;
+  width: 100%;
+  text-align: center;
+}
+
+/* ==============================
+   TEXTOS Y ESTADOS
+============================== */
+.success h1 {
+  color: #4d944f;
+}
+
+.error h1 {
+  color: #e63946;
+}
+
+/* ==============================
+   FORMULARIO
+============================== */
+form {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.campo {
+  margin-bottom: 1.2rem;
+}
+
+.campo label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.campo input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.fila {
+  display: flex;
+  gap: 1rem;
+}
+
+/* ==============================
+   BOTONES
+============================== */
+.btn-pagar,
+.btn-volver {
+  display: inline-block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 8px;
+  background-color: #65b968;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-pagar:hover,
+.btn-volver:hover {
+  background-color: #4d944f;
+}
+
+/* ==============================
+   RESPONSIVIDAD
+============================== */
+@media (max-width: 576px) {
+  .pago-card {
+    padding: 1.5rem;
+  }
+
+  .fila {
+    flex-direction: column;
+  }
+}
