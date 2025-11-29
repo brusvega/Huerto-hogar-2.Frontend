@@ -9,7 +9,7 @@ import "../styles/ModalProducto.css";
 import "../styles/style-buttons.css";
 import { useCarrito } from "../context/CarritoContext";
 
-// 🔥 Importamos el servicio que llama al backend
+// Importamos el servicio que llama al backend
 import { obtenerProductos } from "../services/productosService";
 
 export default function Tienda() {

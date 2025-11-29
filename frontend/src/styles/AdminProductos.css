@@ -54,3 +54,16 @@
 .admin-table button:hover {
   color: red;
 }
+
+.preview-img {
+  width: 150px;
+  margin-top: 10px;
+  border-radius: 10px;
+}
+
+.mini-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 5px;
+}

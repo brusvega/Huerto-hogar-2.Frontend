@@ -1,80 +1,57 @@
-import React from "react";
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../styles/Login.css";
+import { login } from "../services/authService";
 
 export default function Login() {
-  const navigate = useNavigate();
-
-  // Estado para los campos
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  // Lista de usuarios simulados
-  const usuarios = [
-    { email: "bruno@duocuc.cl", rol: "admin" },
-    { email: "paulina@duocuc.cl", rol: "admin" },
-    { email: "cliente@gmail.com", rol: "cliente" },
-  ];
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const data = await login(email, password);
+      console.log("RESPUESTA LOGIN:", data);
 
-    // Buscar si el correo existe
-    const usuario = usuarios.find((u) => u.email === email);
 
-    if (!usuario) {
-      setError("Correo no registrado.");
-      return;
-    }
+      //  GUARDAR TOKEN Y ROL
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("rol", data.rol);
 
-    // Aquí podrías validar contraseña si quisieras
-    if (usuario.rol === "admin") {
-      navigate("/admin/productos"); // 🔑 Redirige al panel admin
-    } else {
-      navigate("/"); // Cliente común → Home
+      alert("Login exitoso: " + data.rol);
+
+      //  REDIRIGIR SEGÚN EL ROL
+      if (data.rol === "ROLE_ADMIN") {
+        window.location.href = "/admin/productos";
+      } else {
+        window.location.href = "/";
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Credenciales incorrectas");
     }
   };
 
   return (
-    <main className="login-container">
-      <div className="login-card">
-        <h2>Iniciar Sesión</h2>
-        <form onSubmit={handleLogin}>
-          <div className="form-group">
-            <label htmlFor="email">Correo Electrónico:</label>
-            <input
-              type="email"
-              id="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
+    <div className="login-page">
+      <h2>Iniciar Sesión</h2>
 
-          <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
+      <form onSubmit={handleLogin} className="login-form">
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-          {error && <p className="text-danger mt-2">{error}</p>}
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-          <button type="submit" className="btn btn-success w-100 mt-3">
-            Ingresar
-          </button>
-        </form>
-      </div>
-    </main>
+        <button type="submit">Ingresar</button>
+      </form>
+    </div>
   );
 }

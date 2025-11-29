@@ -17,12 +17,12 @@ import FormularioPago from "./pages/FormularioPago";
 import PagoExitoso from "./pages/PagoExitoso";
 import PagoDenegado from "./pages/PagoDenegado";
 
-// 🔹 Rutas Admin
+//  Rutas Admin
 import AdminLayout from "./pages/admin/AdminLayout";
 import AdminProductos from "./pages/admin/AdminProductos";
 import AdminUsuarios from "./pages/admin/AdminUsuarios";
 
-// 🔸 Importante: importar el CarritoProvider
+//  Importante: importar el CarritoProvider
 import { CarritoProvider } from "./context/CarritoContext";
 
 export default function App() {
