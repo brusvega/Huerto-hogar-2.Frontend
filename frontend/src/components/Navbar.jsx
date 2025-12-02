@@ -1,16 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/style-buttons.css";
 import "../styles/Navbar.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useCarrito } from "../context/CarritoContext";
 
-
 export default function Navbar() {
   const { carrito } = useCarrito();
-
   const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+  const navigate = useNavigate();
+
+  // Obtener token y rol desde localStorage
+  const token = localStorage.getItem("token");
+  const rol = localStorage.getItem("rol");
+
+  // Función para hacer logout
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("rol");
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm sticky-top">
@@ -55,10 +65,26 @@ export default function Navbar() {
             </li>
           </ul>
 
-          {/* Botón cuenta */}
-          <Link className="btn navbar-btn px-4" to="/login">
-            Cuenta
-          </Link>
+          {/* Verificación si está logueado */}
+          {token ? (
+            // Si el usuario está logueado
+            <div className="d-flex">
+              {/* Si el rol es ADMIN */}
+              {rol === "ROLE_ADMIN" && (
+                <Link to="/admin/productos" className="btn navbar-btn px-4">
+                  Panel Admin
+                </Link>
+              )}
+              <button onClick={handleLogout} className="btn navbar-btn px-4">
+                Cerrar sesión
+              </button>
+            </div>
+          ) : (
+            // Si el usuario NO está logueado
+            <Link className="btn navbar-btn px-4" to="/login">
+              Cuenta
+            </Link>
+          )}
         </div>
       </div>
     </nav>

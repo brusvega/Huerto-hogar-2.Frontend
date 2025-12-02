@@ -1,7 +1,7 @@
-// frontend/src/pages/FormularioPago.jsx
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { useCarrito } from "../context/CarritoContext";  // Importamos el contexto del carrito
 
 const regionsData = {
   "Región Metropolitana": ["Santiago", "Providencia", "Las Condes"],
@@ -11,6 +11,7 @@ const regionsData = {
 
 export default function FormularioPago() {
   const navigate = useNavigate();
+  const { vaciarCarrito } = useCarrito();  // Accedemos a la función para vaciar el carrito
 
   // Datos del comprador / envío
   const [nombre, setNombre] = useState("");
@@ -91,6 +92,9 @@ export default function FormularioPago() {
     try {
       // Simular llamada a API (reemplazar con integración real)
       await new Promise((res) => setTimeout(res, 900));
+
+      // Vaciar el carrito después de la compra
+      vaciarCarrito();
 
       // Si todo ok -> redirigir a página de éxito
       navigate("/pago-exitoso", { replace: true });
