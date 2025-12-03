@@ -1,42 +1,122 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/Admin.css";
+import {
+  obtenerUsuarios,
+  crearUsuario,
+  actualizarUsuario,
+  eliminarUsuario,
+} from "../../services/usuariosService";
 
 export default function AdminUsuarios() {
-  const [usuarios, setUsuarios] = useState([
-    { id: 1, nombre: "Eduardo", correo: "bruno@duocuc.cl", rol: "admin" },
-    { id: 2, nombre: "Paulina", correo: "paulina@duocuc.cl", rol: "admin" },
-  ]);
-
-  const [form, setForm] = useState({ id: null, nombre: "", correo: "", rol: "cliente" });
+  const [usuarios, setUsuarios] = useState([]);
+  const [form, setForm] = useState({
+    id: null,
+    nombre: "",
+    correo: "",
+    password: "",
+    rol: "cliente",
+  });
   const [modoEditar, setModoEditar] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!form.nombre || !form.correo) return;
-
-    if (modoEditar) {
-      setUsuarios((prev) =>
-        prev.map((u) => (u.id === form.id ? { ...u, ...form } : u))
-      );
-    } else {
-      const nuevo = { ...form, id: Date.now() };
-      setUsuarios([...usuarios, nuevo]);
+  // -------------------- Cargar usuarios --------------------
+  const cargarUsuarios = async () => {
+    try {
+      const data = await obtenerUsuarios();
+      setUsuarios(data);
+    } catch (err) {
+      console.error("Error cargando usuarios:", err);
     }
-
-    setForm({ id: null, nombre: "", correo: "", rol: "cliente" });
-    setModoEditar(false);
   };
 
+  useEffect(() => {
+    cargarUsuarios();
+  }, []);
+
+  // -------------------- Cambios formulario --------------------
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // -------------------- Crear / Editar --------------------
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!form.nombre || !form.correo) {
+      alert("Nombre y correo son obligatorios");
+      return;
+    }
+
+    try {
+      if (modoEditar) {
+        // Contraseña SOLO se envía si el usuario escribió una nueva
+        const payload = {
+          nombre: form.nombre,
+          email: form.correo,
+          rol: form.rol,
+        };
+
+        if (form.password.trim() !== "") {
+          payload.password = form.password;
+        }
+
+        await actualizarUsuario(form.id, payload);
+        alert("Usuario actualizado");
+      } else {
+        // Crear usuario requiere contraseña
+        if (!form.password) {
+          alert("La contraseña es obligatoria para crear usuario");
+          return;
+        }
+
+        await crearUsuario({
+          nombre: form.nombre,
+          email: form.correo,
+          password: form.password,
+          rol: form.rol,
+        });
+
+        alert("Usuario creado");
+      }
+
+      setForm({
+        id: null,
+        nombre: "",
+        correo: "",
+        password: "",
+        rol: "cliente",
+      });
+
+      setModoEditar(false);
+      cargarUsuarios();
+    } catch (err) {
+      console.error("Error guardando usuario:", err);
+      alert("Error al guardar usuario");
+    }
+  };
+
+  // -------------------- Editar --------------------
   const handleEditar = (u) => {
-    setForm(u);
+    setForm({
+      id: u.id,
+      nombre: u.nombre,
+      correo: u.email,
+      password: "", // vacío para seguridad
+      rol: u.rol,
+    });
     setModoEditar(true);
   };
 
-  const handleEliminar = (id) => {
-    if (confirm("¿Seguro que deseas eliminar este usuario?")) {
-      setUsuarios((prev) => prev.filter((u) => u.id !== id));
+  // -------------------- Eliminar --------------------
+  const handleEliminar = async (id) => {
+    if (!confirm("¿Seguro que deseas eliminar este usuario?")) return;
+
+    try {
+      await eliminarUsuario(id);
+      alert("Usuario eliminado");
+      cargarUsuarios();
+    } catch (err) {
+      console.error("Error eliminando usuario:", err);
+      alert("No se pudo eliminar usuario");
     }
   };
 
@@ -59,10 +139,24 @@ export default function AdminUsuarios() {
           value={form.correo}
           onChange={handleChange}
         />
+
+        <input
+          type="password"
+          name="password"
+          placeholder={
+            modoEditar
+              ? "Nueva contraseña (opcional)"
+              : "Contraseña (obligatoria)"
+          }
+          value={form.password}
+          onChange={handleChange}
+        />
+
         <select name="rol" value={form.rol} onChange={handleChange}>
           <option value="cliente">Cliente</option>
           <option value="admin">Administrador</option>
         </select>
+
         <button type="submit">
           {modoEditar ? "Guardar cambios" : "Agregar usuario"}
         </button>
@@ -81,7 +175,7 @@ export default function AdminUsuarios() {
           {usuarios.map((u) => (
             <tr key={u.id}>
               <td>{u.nombre}</td>
-              <td>{u.correo}</td>
+              <td>{u.email}</td>
               <td>{u.rol}</td>
               <td>
                 <button onClick={() => handleEditar(u)}>✏️</button>

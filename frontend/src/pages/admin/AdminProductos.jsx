@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/AdminProductos.css";
-import { obtenerProductos, crearProducto, actualizarProducto } from "../../services/productosService";  // Asegúrate de que estas funciones existan
+
+import { 
+  obtenerProductos, 
+  crearProducto, 
+  actualizarProducto, 
+  eliminarProducto 
+} from "../../services/productosService";
+
+
 
 export default function AdminProductos() {
   const [productos, setProductos] = useState([]);

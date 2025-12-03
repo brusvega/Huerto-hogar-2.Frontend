@@ -1,27 +1,50 @@
-import axiosInstance from "./axiosConfig";
 import axios from "axios";
 
 const API_URL = "http://localhost:8080/api/productos";
 
-// GET (no necesita token)
+// -------------------- OBTENER TODOS --------------------
 export const obtenerProductos = async () => {
-  const response = await axios.get(API_URL);
-  return response.data;
+  const res = await axios.get(API_URL);
+  return res.data;
 };
 
-// POST (sí necesita token)
+// -------------------- CREAR PRODUCTO --------------------
 export const crearProducto = async (formData) => {
-  const response = await axiosInstance.post(API_URL, formData);
-  return response.data;
+  const token = localStorage.getItem("token");
+
+  const res = await axios.post(API_URL, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Authorization": `Bearer ${token}`
+    },
+  });
+
+  return res.data;
 };
 
-// DELETE (sí necesita token)
-export const eliminarProducto = async (id) => {
-  await axiosInstance.delete(`${API_URL}/${id}`);
-};
-
-// PUT (sí necesita token)
+// -------------------- ACTUALIZAR PRODUCTO --------------------
 export const actualizarProducto = async (id, formData) => {
-  const response = await axiosInstance.put(`${API_URL}/${id}`, formData);
-  return response.data;
+  const token = localStorage.getItem("token");
+
+  const res = await axios.put(`${API_URL}/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Authorization": `Bearer ${token}`
+    },
+  });
+
+  return res.data;
+};
+
+// -------------------- ELIMINAR PRODUCTO --------------------
+export const eliminarProducto = async (id) => {
+  const token = localStorage.getItem("token");
+
+  const res = await axios.delete(`${API_URL}/${id}`, {
+    headers: {
+      "Authorization": `Bearer ${token}`
+    },
+  });
+
+  return res.data;
 };
