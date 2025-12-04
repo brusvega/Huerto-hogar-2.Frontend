@@ -1,15 +1,15 @@
-import axios from "axios";
+import api from "../services/axiosConfig";
 
-const API_URL = "http://localhost:8080/api/productos";
+const BASE_PATH = "/productos";
 
 export const obtenerProductos = () =>
-  axios.get(API_URL).then(res => res.data);
+  api.get(BASE_PATH).then(res => res.data);
 
 export const crearProducto = (producto) =>
-  axios.post(API_URL, producto).then(res => res.data);
+  api.post(BASE_PATH, producto).then(res => res.data);
 
 export const actualizarProducto = (id, producto) =>
-  axios.put(`${API_URL}/${id}`, producto).then(res => res.data);
+  api.put(`${BASE_PATH}/${id}`, producto).then(res => res.data);
 
 export const eliminarProducto = (id) =>
-  axios.delete(`${API_URL}/${id}`);
+  api.delete(`${BASE_PATH}/${id}`);

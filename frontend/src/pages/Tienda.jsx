@@ -92,7 +92,7 @@ export default function Tienda() {
             <div className="card h-100">
 
               <img
-                src={p.imagen}
+                src={p.imagenUrl || "/img/pp1.png"}
                 alt={p.nombre}
                 className="card-img-top"
               />

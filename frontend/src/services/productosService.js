@@ -1,50 +1,27 @@
-import axios from "axios";
+import api from "./axiosConfig";
 
-const API_URL = "http://localhost:8080/api/productos";
+const BASE_PATH = "/productos";
 
-// -------------------- OBTENER TODOS --------------------
 export const obtenerProductos = async () => {
-  const res = await axios.get(API_URL);
+  const res = await api.get(BASE_PATH);
   return res.data;
 };
 
-// -------------------- CREAR PRODUCTO --------------------
 export const crearProducto = async (formData) => {
-  const token = localStorage.getItem("token");
-
-  const res = await axios.post(API_URL, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "Authorization": `Bearer ${token}`
-    },
+  const res = await api.post(BASE_PATH, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-
   return res.data;
 };
 
-// -------------------- ACTUALIZAR PRODUCTO --------------------
 export const actualizarProducto = async (id, formData) => {
-  const token = localStorage.getItem("token");
-
-  const res = await axios.put(`${API_URL}/${id}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      "Authorization": `Bearer ${token}`
-    },
+  const res = await api.put(`${BASE_PATH}/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-
   return res.data;
 };
 
-// -------------------- ELIMINAR PRODUCTO --------------------
 export const eliminarProducto = async (id) => {
-  const token = localStorage.getItem("token");
-
-  const res = await axios.delete(`${API_URL}/${id}`, {
-    headers: {
-      "Authorization": `Bearer ${token}`
-    },
-  });
-
+  const res = await api.delete(`${BASE_PATH}/${id}`);
   return res.data;
 };

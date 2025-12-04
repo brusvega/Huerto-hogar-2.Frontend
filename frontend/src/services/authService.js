@@ -1,26 +1,31 @@
+// authService.js
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/api/auth";
+const apiBase = (
+  typeof import.meta !== "undefined" && import.meta.env && import.meta.env.VITE_API_URL
+) || "http://localhost:8080/api";
+
+const AUTH_PATH = `${apiBase}/auth`;
 
 export const login = async (email, password) => {
-  const response = await axios.post(`${API_URL}/login`, {
-    email,
-    password,
-  });
+  try {
+    const response = await axios.post(`${AUTH_PATH}/login`, { email, password });
+    const data = response.data || {};
 
-  // Guardar token y rol
-  localStorage.setItem("token", response.data.token);
-  localStorage.setItem("rol", response.data.rol);
+    const token = data.token || data.accessToken || data.jwt || data.tokenJwt;
+    const rol = data.rol || data.role || (Array.isArray(data.roles) ? data.roles[0] : undefined);
 
-  return response.data;
+    if (token) localStorage.setItem("token", token);
+    if (rol) localStorage.setItem("rol", rol);
+
+    return { token, rol, ...data };
+  } catch (error) {
+    throw new Error("Error de autenticación");
+  }
 };
 
 export const register = async (nombre, email, password) => {
-  return axios.post(`${API_URL}/register`, {
-    nombre,
-    email,
-    password,
-  });
+  return axios.post(`${AUTH_PATH}/register`, { nombre, email, password });
 };
 
 export const logout = () => {

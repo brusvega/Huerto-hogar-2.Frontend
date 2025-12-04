@@ -1,28 +1,31 @@
+// Login.js
 import { useState } from "react";
-import { login } from "../services/authService";
+import { useNavigate } from "react-router-dom";  // Usamos useNavigate para redirigir
+import { login } from "../services/authService";  // Importamos el servicio de login
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");  // Estado para el email
+  const [password, setPassword] = useState("");  // Estado para la contraseña
+  const navigate = useNavigate();  // Usamos useNavigate para redirigir
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    e.preventDefault();  // Evita que el formulario se recargue
+
+    if (!email || !password) {
+      alert("Por favor ingresa ambos campos.");
+      return;
+    }
+
     try {
+      // Llamamos al servicio de login
       const data = await login(email, password);
       console.log("RESPUESTA LOGIN:", data);
 
-
-      //  GUARDAR TOKEN Y ROL
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("rol", data.rol);
-
-      alert("Login exitoso: " + data.rol);
-
-      //  REDIRIGIR SEGÚN EL ROL
+      // Redirigir según el rol
       if (data.rol === "ROLE_ADMIN") {
-        window.location.href = "/admin/productos";
+        navigate("/admin/productos");  // Redirige al área de administrador
       } else {
-        window.location.href = "/";
+        navigate("/");  // Redirige al área principal del usuario
       }
 
     } catch (error) {
@@ -36,16 +39,20 @@ export default function Login() {
       <h2>Iniciar Sesión</h2>
 
       <form onSubmit={handleLogin} className="login-form">
+        <label htmlFor="email">Correo electrónico</label>
         <input
+          id="email"
           type="email"
-          placeholder="Correo electrónico"
+          placeholder="tu@correo.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
+        <label htmlFor="password">Contraseña</label>
         <input
+          id="password"
           type="password"
-          placeholder="Contraseña"
+          placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

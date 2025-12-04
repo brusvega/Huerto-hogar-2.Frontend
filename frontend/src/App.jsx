@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -26,6 +27,14 @@ import AdminUsuarios from "./pages/admin/AdminUsuarios";
 import { CarritoProvider } from "./context/CarritoContext";
 
 export default function App() {
+  const ProtectedRoute = ({ children, requiredRole }) => {
+    const token = localStorage.getItem("token");
+    const rol = localStorage.getItem("rol");
+    if (!token) return <Navigate to="/login" replace />;
+    if (requiredRole && rol !== requiredRole) return <Navigate to="/" replace />;
+    return children;
+  };
+
   return (
     <BrowserRouter>
       {/* Envolvemos toda la app dentro del contexto del carrito */}
@@ -40,8 +49,15 @@ export default function App() {
           <Route path="/tienda" element={<Tienda />} />
           <Route path="/carrito" element={<Carrito />} />
 
-          {/* Rutas Admin */}
-          <Route path="/admin" element={<AdminLayout />}>
+          {/* Rutas Admin protegidas */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="ROLE_ADMIN">
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route path="productos" element={<AdminProductos />} />
             <Route path="usuarios" element={<AdminUsuarios />} />
           </Route>

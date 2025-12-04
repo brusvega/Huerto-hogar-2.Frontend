@@ -6,7 +6,7 @@ export default function Home() {
       <div className="container py-5">
         <h1 className="display-4 fw-bold mb-4 text-success">Huerto Hogar </h1>
         <p className="lead mb-5">Bienvenido a nuestra tienda de productos naturales y sustentables.</p>
-        <a className="btn btn-success btn-lg" href="/productos">
+        <a className="btn btn-success btn-lg" href="/Tienda">
           Ver productos
         </a>
       </div>
